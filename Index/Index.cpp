@@ -4,7 +4,7 @@
 using namespace std;
 int main() {
     bool refresh = false;
-    bool refreshPoint = false;
+    bool pointModified = false;
     int current = 0;
     int prev = -1;
     int numberOfItems = 0;
@@ -14,64 +14,20 @@ int main() {
     string input = "";
     string empty = "";
 
-    // count the total number of items
-    for (auto const&[key, value] : items) {
-        if (key.length() == 7)
-            numberOfItems++;
-    }
-    //
-    // start
+    numberOfItems = items.size();
     while (true) {
         system("cls");
-        /*string art = "";
-        if (completedItems < numberOfItems / 4)
-            art = arts[0];
-        else if (completedItems < numberOfItems / 2)
-            art = arts[1];
-        else
-            art = arts[2];
-        cout << art <<endl;*/
+        //showArts(completedItems, numberOfItems);
         showPath(current, currentType);
-        if (refresh)
-            cout << "Achievement: [ \033[1;31m" << completedItems << "\033[0m : " << numberOfItems << " ]" << endl;
-        else
-            cout << "Achievement: [ " << completedItems << " : " << numberOfItems << " ]" << endl;
-        if (refreshPoint || point < 0)
-            cout << "Point: \033[1;31m" << point << "\033[0m" << endl;
-        else
-            cout << "Point: " << point << endl;
-        refresh = false;
-        refreshPoint = false;
+        checkUpdate(refresh, pointModified, point, completedItems, numberOfItems);
         insertItemsToPrint(current, prev, currentType);
-        // check item completed
-        if (currentItems.empty()) {
-            current--;
-            point = point + 3;
-            cout << "Completed 1 Item!" << endl;
-            if (current < 0) {
-                system("cls");
-                //cout << arts[4] << endl;
-                cout << "Completed All the Index!" << endl;
-                exit(0);
-            }
-            else if (current == 0)
-                currentType = "0";
-            else {
-                refresh = true;
-                refreshPoint = true;
-                completedItems++;
-                items.erase(currentType);
-                currentType = currentType.substr(0, 2 * current - 1);
-            }
+        if (checkIfItemCompleted(refresh, pointModified, completedItems, current, point, items, currentType)) 
             continue;
-        }
         cout << endl;
         printItems(currentItems);
         cout << endl;
-        // get input from user
         cout << "Enter an item number or \"..\" to go back or \"q\" to quit the program : ";
         getline(cin, input);
-        // quit
         if (input == "q") {
             do {
                 cout << "Really want to quit? (y: yes, n: no)" << endl;
@@ -88,7 +44,6 @@ int main() {
             } while (input != "n");
             continue;
         }
-        // go back
         else if (input == "..") {
             if (current == 0) {
                 cout << "Already in the parent path." << endl;
@@ -121,7 +76,7 @@ int main() {
         else {
             cout << "Incorrect password." << endl;
                 point = point - 10;
-                refreshPoint = true;
+                pointModified = true;
             }
     }
     return 0;
@@ -161,4 +116,54 @@ void insertItemsToPrint(int current, int prev, string currentType) {
                 currentItems.insert({ key,value });
         }
     }
+}
+
+void checkUpdate(bool& refresh, bool& pointModified, int point, int completedItems, int numberOfItems) {
+    if (refresh)
+        cout << "Achievement: [ \033[1;31m" << completedItems << "\033[0m : " << numberOfItems << " ]" << endl;
+    else
+        cout << "Achievement: [ " << completedItems << " : " << numberOfItems << " ]" << endl;
+    if (pointModified || point < 0)
+        cout << "Point: \033[1;31m" << point << "\033[0m" << endl;
+    else
+        cout << "Point: " << point << endl;
+    refresh = false;
+    pointModified = false;
+}
+
+void showArts(int completedItems, int numberOfItems) {
+    string art = "";
+    if (completedItems < numberOfItems / 4)
+        art = arts[0];
+    else if (completedItems < numberOfItems / 2)
+        art = arts[1];
+    else
+        art = arts[2];
+    cout << art << endl;
+}
+
+bool checkIfItemCompleted(bool& refresh, bool& pointModified, int& completedItems, int& current, int& point, map<string, string>& items, string& currentType) {
+    if (currentItems.empty()) {
+        current--;
+        point = point + 3;
+        cout << "Completed 1 Item!" << endl;
+        if (current < 0) {
+            system("cls");
+            //cout << arts[4] << endl;
+            cout << "Completed All the Index!" << endl;
+            exit(0);
+        }
+        else if (current == 0)
+            currentType = "0";
+        else {
+            refresh = true;
+            pointModified = true;
+            completedItems++;
+            items.erase(currentType);
+            currentType = currentType.substr(0, 2 * current - 1);
+        }
+        return true;
+    }
+    else
+        return false;
 }
