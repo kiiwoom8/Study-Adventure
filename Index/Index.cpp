@@ -1,20 +1,20 @@
 #include "IndexMap.h"
 #include "Functions.h"
 #include "AsciiArts.h"
+
 using namespace std;
+
 int main() {
     bool refresh = false;
     bool pointModified = false;
     int current = 0;
     int prev = -1;
-    int numberOfItems = 0;
     int completedItems = 0;
     int point = 0;
     string currentType = "0";
     string input = "";
-    string empty = "";
 
-    numberOfItems = items.size();
+    int numberOfItems = items.size();
     while (true) {
         system("cls");
         //showArts(completedItems, numberOfItems);
@@ -23,61 +23,11 @@ int main() {
         insertItemsToPrint(current, prev, currentType);
         if (checkIfItemCompleted(refresh, pointModified, completedItems, current, point, items, currentType)) 
             continue;
-        cout << endl;
         printItems(currentItems);
-        cout << endl;
         cout << "Enter an item number or \"..\" to go back or \"q\" to quit the program : ";
         getline(cin, input);
-        if (input == "q") {
-            do {
-                cout << "Really want to quit? (y: yes, n: no)" << endl;
-                getline(cin, input);
-                if (input == "y") {
-                    exit(0);
-                }
-                else if (input == "n") {
-                    continue;
-                }
-                else {
-                    cout << "You typed the wrong answer." << endl;
-                }
-            } while (input != "n");
+        if (checkIfMenuSelected(current, currentType, input) || checkPassword(pointModified, current, point, currentType, currentItems, input))
             continue;
-        }
-        else if (input == "..") {
-            if (current == 0) {
-                cout << "Already in the parent path." << endl;
-                continue;
-            }
-            current--;
-            if (current == 0) {
-                currentType = "0";
-            }
-            else {
-                currentType = currentType.substr(0, 2 * current - 1);
-            }
-            continue;
-        }
-        // Check if the item exists
-        auto iter = currentItems.find(input);
-        if (iter == currentItems.end()) {
-            system("cls");
-            cerr << "\033[1;31mItem not found.\033[0m" << endl;
-            continue;
-        }
-        // require password
-        string password;
-        cout << "Password required to access " << iter->first << ": ";
-        getline(cin, password);
-        if (password == iter->second) {
-            currentType = input;
-            current++;
-        }
-        else {
-            cout << "Incorrect password." << endl;
-                point = point - 10;
-                pointModified = true;
-            }
     }
     return 0;
 }
@@ -98,13 +48,14 @@ void showPath(int current, string currentType) {
 }
 
 void printItems(map<string, string> currentItems) {
+    cout << endl;
     for (auto iter = currentItems.begin(); iter != currentItems.end(); ++iter) {
         cout << iter->first;
         if (next(iter) != currentItems.end()) {
             cout << "     ";
         }
     }
-    cout << endl;
+    cout << endl << endl;
 }
 
 void insertItemsToPrint(int current, int prev, string currentType) {
@@ -166,4 +117,57 @@ bool checkIfItemCompleted(bool& refresh, bool& pointModified, int& completedItem
     }
     else
         return false;
+}
+
+bool checkIfMenuSelected(int& current, string& currentType,string input) {
+    if (input == "q") {
+        do {
+            cout << "Really want to quit? (y: yes, n: no)" << endl;
+            getline(cin, input);
+            if (input == "y") {
+                exit(0);
+            }
+            else if (input == "n") {
+                break;
+            }
+        } while (input != "n");
+        return true;
+    }
+    else if (input == "..") {
+        current--;
+        if (current < 0) {
+            current = 0;
+            cout << "Already in the parent path." << endl;
+        }
+        else if (current == 0) {
+            currentType = "0";
+        }
+        else {
+            currentType = currentType.substr(0, 2 * current - 1);
+        }
+        return true;
+    }
+    return false;
+}
+
+bool checkPassword(bool& pointModified, int& current, int& point, string& currentType, map<string, string>currentItems, string input) {
+    auto iter = currentItems.find(input);
+    if (iter == currentItems.end()) {
+        system("cls");
+        cerr << "\033[1;31mItem not found.\033[0m" << endl;
+        return true;
+    }
+    string password;
+    cout << "Password required to access " << iter->first << ": ";
+    getline(cin, password);
+    if (password == iter->second) {
+        currentType = input;
+        current++;
+    }
+    else {
+        cout << "Incorrect password." << endl;
+        point = point - 10;
+        pointModified = true;
+    }
+    return false;
 }
