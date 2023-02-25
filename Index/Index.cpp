@@ -1,9 +1,13 @@
 #include "IndexMap.h"
 #include "Functions.h"
 #include "AsciiArts.h"
+#include <sstream>
+#include <vector>
+
 
 using namespace std;
-
+static const int wrongPoint = 5;
+static const int hintPoint = 5;
 int main() {
     bool refresh = false;
     bool pointModified = false;
@@ -158,15 +162,42 @@ bool checkPassword(bool& pointModified, int& current, int& point, string& curren
         return true;
     }
     string password;
-    cout << "Password required to access " << iter->first << ": ";
+    cout << "Password required to access \033[1;31m" << iter->first  << "\033[0m or \"h\" to pay " << hintPoint << " points and get a hint" << ": ";
     getline(cin, password);
+    if (password == "h") {
+        stringstream ss(iter->second);
+        vector <string> substrings;
+        string substring;
+        while (ss >> substring) {
+            substrings.push_back(substring);
+        }
+        string hint;
+        bool first = true;
+        for (const auto& s : substrings) {
+            if (first) {
+                first = false;
+                hint = s;
+            }
+            else
+                hint = hint + " " + s;
+            point = point - hintPoint;
+            system("cls");
+            showPath(current, currentType);
+            cout << endl;
+            cout << "Point: \033[1;31m" << point << "\033[0m" << endl;
+            cout << "Hint: " << hint << "\nType the answer or \"h\" for the next hint: ";
+            getline(cin, password);
+            if (password != "h")
+                break;
+        }
+    }
     if (password == iter->second) {
         currentType = input;
         current++;
     }
     else {
         cout << "Incorrect password." << endl;
-        point = point - 10;
+        point = point - wrongPoint;
         pointModified = true;
     }
     return false;
