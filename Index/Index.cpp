@@ -3,6 +3,8 @@
 #include "AsciiArts.h"
 #include <sstream>
 #include <vector>
+#include <conio.h>
+#include <Windows.h>
 
 
 using namespace std;
@@ -186,6 +188,18 @@ bool checkPassword(bool& pointModified, int& current, int& point, string& curren
             cout << endl;
             cout << "Point: \033[1;31m" << point << "\033[0m" << endl;
             cout << "Hint: " << hint << "\nType the answer or \"h\" for the next hint: ";
+            for (int i = 0; i < 10000; i++) {
+                if (_kbhit()) {
+                    system("cls");
+                    break;
+                }
+                Sleep(50);
+            }
+            showPath(current, currentType);
+            cout << endl;
+            cout << "Point: \033[1;31m" << point << "\033[0m" << endl;
+            cout << "--- Hints are hidden while typing ---" << endl;
+            cout << "Type the answer or \"h\" for the next hint: ";
             getline(cin, password);
             if (password != "h")
                 break;
