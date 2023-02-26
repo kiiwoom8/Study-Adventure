@@ -82,7 +82,7 @@ std::map<std::string, std::string> items = {
         {"1-3-3-2", "The Distribution of Ions across the Membrane"},
         {"1-3-3-3", "Relative Ion Permeabilities of the Membrane at Rest"},
         {"1-3-3-3-1", "The Wide World of Potassium Channels"},
-        {"1-3-3-3-2", "The Importance of Regulationg the External Potassium Concentration"},
+        {"1-3-3-3-2", "The Importance of Regulating the External Potassium Concentration"},
         {"1-4", "The Action Potential"},
         {"1-4-1", "Properties of the Action Potential"},
         {"1-4-1-1", "The Ups and Downs of an Action Potential"},
