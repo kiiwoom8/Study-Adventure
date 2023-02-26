@@ -4,7 +4,7 @@
 
 std::map<std::string, std::string> items = {
         {"1", "Foundations"},
-        {"1-1", "Past, Present, and Future"},
+        {"1-1", "Past, Present and Future"},
         {"1-1-1", "The Origins of Neuroscience"},
         {"1-1-1-1", "Views of the Brain in Ancient Greece"},
         {"1-1-1-2", "Views of the Brain during the Roman Empire"},
