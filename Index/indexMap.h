@@ -2,7 +2,7 @@
 #include <map>
 #include <string>
 
-std::map<std::string, std::string> items = {
+std::map<std::string, std::string> neuroscience = {
         {"1", "Foundations"},
         {"1-1", "Past, Present, and Future"},
         {"1-1-1", "The Origins of Neuroscience"},
@@ -493,5 +493,3 @@ std::map<std::string, std::string> items = {
         { "4-3-2-1", "Persistently Active Protein Kinases" },
         { "4-3-2-2", "Protein Synthesis and Memory Consolidation" },
 };
-
-std::map<std::string, std::string> currentItems = {};

@@ -29,5 +29,8 @@
     <ClInclude Include="AsciiArts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DefenseMechanism.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

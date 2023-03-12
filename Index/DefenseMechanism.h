@@ -1,0 +1,36 @@
+#pragma once
+#include <map>
+#include <string>
+std::map<std::string, std::string> defenseMechanism = {
+	{"1", "Pathological Defense Mechanism"},
+	{"1-1", "Denial"},
+	{"1-2", "Splitting"},
+	{"1-3", "Conversion"},
+	{"1-4", "Distortion"},
+	{"2", "Immature Defense Mechanism"},
+	{"2-1", "Projection"},
+	{"2-2", "Dissociation"},
+	{"2-3", "Fantasy"},
+	{"2-4", "Passve Agression"},
+	{"2-4", "Acting Out"},
+	{"3", "Neurotic Defense Mechanism"},
+	{"3-1", "Rationalization"},
+	{"3-2", "Reaction Formation"},
+	{"3-3", "Repression"},
+	{"3-4", "Regression"},
+	{"3-5", "Undoing"},
+	{"3-6", "Displacement"},
+	{"3-7", "Intellectualization"},
+	{"3-8", "Upward and Downward Social Comparisons"},
+	{"4", "Mature Defense Mechanism"},
+	{"4-1", "Sublimation"},
+	{"4-2", "Humor"},
+	{"4-3", "Altruism"},
+	{"4-4", "Supression"},
+	{"4-5", "Patience"},
+	{"4-6", "Acceptance"},
+	{"4-7", "Tolerance"},
+	{"4-8", "Anticipation"},
+	{"4-9", "Emotional Self-Regulation"},
+	{"4-10", "Emotional Self-Sufficiency"}
+};

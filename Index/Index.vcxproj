@@ -133,6 +133,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AsciiArts.h" />
+    <ClInclude Include="DefenseMechanism.h" />
     <ClInclude Include="Functions.h" />
     <ClInclude Include="IndexMap.h" />
   </ItemGroup>

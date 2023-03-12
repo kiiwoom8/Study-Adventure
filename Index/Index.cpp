@@ -1,6 +1,7 @@
 #include "IndexMap.h"
 #include "Functions.h"
 #include "AsciiArts.h"
+#include "DefenseMechanism.h"
 #include <sstream>
 #include <vector>
 #include <conio.h>
@@ -10,6 +11,8 @@
 using namespace std;
 static const int wrongPoint = 5;
 static const int hintPoint = 5;
+std::map<std::string, std::string> items = {};
+std::map<std::string, std::string> currentItems = {};
 int main() {
     bool refresh = false;
     bool pointModified = false;
@@ -20,7 +23,24 @@ int main() {
     string currentType = "0";
     string input = "";
 
+    while (true) {
+        string input;
+        cout << "Enter a Category(n, d) or \"q\" to exit: ";
+        getline(cin, input);
+        if (input == "n") {
+            items = neuroscience;
+            break;
+        }
+        else if (input == "d") {
+            items = defenseMechanism;
+            break;
+        }
+        else if (input == "q")
+            exit(0);
+    }
+
     int numberOfItems = items.size();
+
     while (true) {
         system("cls");
         //showArts(completedItems, numberOfItems);
@@ -75,7 +95,7 @@ void insertItemsToPrint(int current, int prev, string currentType) {
     }
 }
 
-void checkUpdate(bool& refresh, bool& pointModified, int point, int completedItems, int numberOfItems) {
+void checkUpdate(bool& refresh , bool& pointModified, int point, int completedItems, int numberOfItems) {
     if (refresh)
         cout << "Achievement: [ \033[1;31m" << completedItems << "\033[0m : " << numberOfItems << " ]" << endl;
     else
